@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <!-- <link rel="stylesheet" href='../css/main.css'/> -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title> Digital Tea </title>
+        <style>
+            body{
+                background-color: rgb(164, 247, 247);
+            }
+            #boba-Icon {
+                height: 60px;
+                width: 60px;
+                margin-left: 180px;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        </style>
+    </head>
+
+    <body>
+        <nav class="nav-wraper indigo">
+            <div class="container">
+                <img class="brand-logo" id="boba-Icon" src = "https://cdn-icons-png.flaticon.com/512/3081/3081162.png" alt = "Funky" /></Link>
+                <a href="/" class="brand-logo left">DigitalTea</a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/Customers">Customers</a></li>
+                    <li><a href="/Materials">Materials</a></li>
+                    <li><a href="/Shops">Shops</a></li>
+                    <li><a href="/Orders">Orders</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container">
+            <h1>Shops</h1>
+
+            <button class="btn teal modal-trigger" data-target="newShop">Add New Shop</button>
+            <div class="modal" id="newShop">
+                <div class="modal-content">
+                    <h3>Add New Shop Info</h3>
+                    <form id="insertShop" action="/Shops" method="post">
+                        <label for="make">Street Address</label>
+                        <input type="text" class="form-control" id="shopAddress" name="shopAddress" required>
+                        <label for="make">City</label>
+                        <input type="text" class="form-control" id="shopCity" name="shopCity" required>
+                        <label for="make">State</label>
+                        <input type="text" class="form-control" id="shopState" name="shopState" required>
+                        <label for="make">Manager Name</label>
+                        <input type="text" class="form-control" id="shopManager" name="shopManager" required>
+                        <br>
+                        <input type="submit" value="Add Shop" name="Add_Shop" class="btn btn-primary" style="margin:.5rem;">
+                        <button class="btn red modal-close">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <br><br>
+
+            <button class="btn teal modal-trigger" data-target="updateShop">Update Shop Info</button>
+            <div class="modal" id="updateShop">
+                <div class="modal-content">
+                    <h3>Update Shop</h3>
+                        <form id="updateShop" action="/Shops" method="post">
+                            <label for="make">Shop ID</label>
+                            <input type="number" class="form-control" id="shop_ID" name="shop_ID">
+                            <br>
+                            <label for="make">Address</label>
+                            <input type="text" class="form-control" id="address" name="address">
+                            <br>
+                            <label for="make">City</label>
+                            <input type="text" class="form-control" id="city" name="city">
+                            <br>
+                            <label for="make">State</label>
+                            <input type="text" class="form-control" id="state" name="state">
+                            <br>
+                            <label for="make">Manager</label>
+                            <input type="text" class="form-control" id="manager" name="manager">
+                            <br>
+                            <input type="submit" value="Update Shop" name="Update_Shop" class="btn btn-primary" style="margin:.5rem;">
+                            <button class="btn red modal-close">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <br><br>
+            <div class="center container"><h3>Shop List</h3></div>
+            <table border='1'>
+                <thead>
+                    <th> Shop ID </th>
+                    <th> Address </th>
+                    <th> City </th>
+                    <th> State </th>
+                    <th> Manager </th>
+                </thead>
+
+                <tbody>
+                    {% for item in rows %}
+                    <tr>
+                        <td> {{item['shop_ID']}} </td>
+                        <td> {{item['street_address']}} </td>
+                        <td> {{item['city']}} </td>
+                        <td> {{item['state']}} </td>
+                        <td> {{item['manager']}} </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function(){
+                const box = document.querySelectorAll(".modal");
+                M.Modal.init(box, {});
+            });
+        </script>
+    </body>
+</html>
