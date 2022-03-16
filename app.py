@@ -4,9 +4,6 @@ from flask import request
 
 app = Flask(__name__)
 
-app.logger.addHandler(logging.StreamHandler(sys.stdout))
-app.logger.setLevel(logging.ERROR)
-
 # DATABASE CONNECTION
 app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
 app.config["MYSQL_USER"] = "cs340_caiso"
