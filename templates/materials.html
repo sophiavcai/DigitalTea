@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <!-- <link rel="stylesheet" href='../css/main.css'/> -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title> Digital Tea </title>
+        <style>
+            body{
+                background-color: rgb(164, 247, 247);
+            }
+            #boba-Icon {
+                height: 60px;
+                width: 60px;
+                margin-left: 180px;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        </style>
+    </head>
+
+    <body>
+        <nav class="nav-wraper indigo">
+            <div class="container">
+                <img class="brand-logo" id="boba-Icon" src = "https://cdn-icons-png.flaticon.com/512/3081/3081162.png" alt = "Funky" /></Link>
+                <a href="/" class="brand-logo left">DigitalTea</a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/Customers">Customers</a></li>
+                    <li><a href="/Materials">Materials</a></li>
+                    <li><a href="/Shops">Shops</a></li>
+                    <li><a href="/Orders">Orders</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+
+            <h1>Materials</h1>
+            
+            <button class="btn teal modal-trigger" data-target="updateMaterial">Update Material</button>
+            <div class="modal" id="updateMaterial">
+                <div class="modal-content">
+                    <h3>Update Material</h3>
+                    <form id="insertMaterial" action="/Materials" method="post">
+                        <label for="make">Material ID</label>
+                        <input type="number" class="form-control" id="material_ID" name="material_ID" required>
+                        <label for="make">Cost per Unit</label>
+                        <input type="decimal" class="form-control" id="materialCost" name="materialCost">
+                        <br><br>
+                        <label for="make">Price per Unit</label>
+                        <input type="decimal" class="form-control" id="materialPrice" name="materialPrice">
+                        <br><br>
+                        <input type="submit" value="Update Material" name="Update_Material" class="btn btn-primary" style="margin:.5rem;">
+                        <button class="btn red modal-close">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <br><br>
+
+            <button class="btn teal modal-trigger" data-target="orderMaterial">Update Material</button>
+            <div class="modal" id="orderMaterial">
+                <div class="modal-content">
+                    <h3>Order Material</h3>
+                    <form id="orderMaterial" action="/Materials" method="post">
+                        <label for="make">Material ID</label>
+                        <input type="number" class="form-control" id="material_ID" name="material_ID" required>
+                        <br>
+                        <label for="make">Quantity</label>
+                        <input type="number" class="form-control" id="quantity" name="quantity" required>
+                        <br>
+                        <input type="submit" value="Order Material" name="Order_Material" class="btn btn-primary" style="margin:.5rem;">
+                        <button class="btn red modal-close">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        
+            <!-- <form id="filterModel" action="/Model" method="post">
+                <legend><strong>Filter Brand</strong></legend>
+                <fieldset>
+                    <label for="make">Brand ID:</label>
+                    <input type="text" class="form-control" id="brandID" name="brandID">
+                </fieldset>
+
+                <input type="submit" value="Filter Model" name="Filter_Model" class="btn btn-primary" style="margin:.5rem;">
+            </form>
+            <br> -->
+
+            <div class="center container"><h3>Material & Ingredient List</h3></div>
+            <table border='1'>
+                <thead>
+                    <th> Material ID </th>
+                    <th> Name </th>
+                    <th> Units in Stock </th>
+                    <th> Cost per Unit </th>
+                    <th> Price per Unit </th>
+                </thead>
+
+                <tbody>
+                    {% for item in rows %}
+                    <tr>
+                        <td> {{item['material_ID']}} </td>               
+                        <td> {{item['name']}} </td>
+                        <td> {{item['quantity']}} </td>
+                        <td> {{item['cost']}} </td>
+                        <td> {{item['price']}} </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function(){
+                const box = document.querySelectorAll(".modal");
+                M.Modal.init(box, {});
+            });
+        </script>
+    </body>
+
+</html>

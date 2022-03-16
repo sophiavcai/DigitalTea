@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <!-- <link rel="stylesheet" href='../css/main.css'/> -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title> Digital Tea </title>
+        <style>
+            body{
+                background-color: rgb(164, 247, 247);
+            }
+            #boba-Icon {
+                height: 60px;
+                width: 60px;
+                margin-left: 180px;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        </style>
+    </head>
+
+    <body>
+        <nav class="nav-wraper indigo">
+            <div class="container">
+                <img class="brand-logo" id="boba-Icon" src = "https://cdn-icons-png.flaticon.com/512/3081/3081162.png" alt = "Funky" /></Link>
+                <a href="/" class="brand-logo left">DigitalTea</a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/Customers">Customers</a></li>
+                    <li><a href="/Materials">Materials</a></li>
+                    <li><a href="/Shops">Shops</a></li>
+                    <li><a href="/Orders">Orders</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container">
+            <h1>Orders/Order Items</h1>
+
+            <button class="btn teal modal-trigger" data-target="newOrder">Add Order</button>
+            <div class="modal" id="newOrder">
+                <div class="modal-content">
+                    <h3>Add Order</h3>
+                    <form id="insertOrder" action="/Orders" method="post">
+                        <label for="make">Shop</label>
+                        <input type="number" class="form-control" id="orderShop" name="orderShop" required>
+                        <label for="make">Customer</label>
+                        <input type="number" class="form-control" id="orderCustomer" name="orderCustomer" required>
+                        <br>
+                        <input type="submit" value="Add Order" name="Add_Order" class="btn btn-primary" style="margin:.5rem;">
+                        <button class="btn red modal-close">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <br><br>
+
+            <button class="btn teal modal-trigger" data-target="updateOrder">Update Order</button>
+            <div class="modal" id="updateOrder">
+                <div class="modal-content">
+                    <h3>Update Order</h3>
+                    <form id="updateOrder" action="/Orders" method="post">
+                        <label for="make">Order ID</label>
+                        <input type="number" class="form-control" id="order_ID" name="order_ID" required>
+                        <br>
+                        <label for="make">Shop</label>
+                        <input type="text" class="form-control" id="shop" name="shop">
+                        <br>
+                        <label for="make">Customer</label>
+                        <input type="text" class="form-control" id="customer" name="customer">
+                        <br>
+                        <input type="submit" value="Update Order" name="Update_Order" class="btn btn-primary" style="margin:.5rem;">
+                        <button class="btn red modal-close">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <br><br>
+
+            <button class="btn teal modal-trigger" data-target="deleteOrder">Delete Order</button>
+            <div class="modal" id="deleteOrder">
+                <div class="modal-content">
+                    <h3>Delete Order</h3>
+                    <form id="deleteOrder" action="/Orders" method="post">
+                        <label for="make">Order ID</label>
+                        <input type="number" class="form-control" id="order_ID" name="order_ID" required>
+                        <br>
+                        <input type="submit" value="Delete Order" name="Delete_Order" class="btn btn-primary" style="margin:.5rem;">
+                        <button class="btn red modal-close">Cancel</button>
+                    </form>
+                </div>
+            </div>           
+
+            <br>
+            <div class="center container"><h3>Orders</h3></div>
+            <table border='1'>
+                <thead>
+                    <th> Order ID </th>
+                    <th> Drink Quantity </th>
+                    <th> Shop </th>
+                    <th> Customer </th>
+                    <th> Date </th>
+                    <th> Price </th>
+                </thead>
+                
+                <tbody>
+                    {% for item in order_rows %}
+                        <tr>
+                            <td> {{item['order_ID']}} </td>
+                            <td> {{item['drink_quantity']}} </td>
+                            <td> {{item['shop']}} </td>
+                            <td> {{item['customer']}} </td>
+                            <td> {{item['date']}} </td>
+                            <td> {{item['price']}} </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <br><br>
+
+            <button class="btn teal modal-trigger" data-target="addOrderItem">Add Order Item</button>
+            <div class="modal" id="addOrderItem">
+                <div class="modal-content">
+                    <h3>Add Order Item</h3>
+                    <form id="insertOrderItem" action="/Orders" method="post">
+                        <label for="make">What Order ID are you adding this drink to?</label>
+                        <input type="number" class="form-control" id="orderID" name="orderID" required>
+
+                        <br><br>
+    
+                        <label for="make">What kind of tea?</label>
+                        <select type="number" class="form-control" name="orderTeaType" id="orderTeaType" required>
+                            <option value="">Choose tea base</option>
+                            <option value=4>Green Tea</option>
+                            <option value=5>Earl Grey Tea</option>
+                            <option value=6>Black Tea</option>
+                            <option value=7>Milk Tea</option>
+                            <option value=8>Milk Green Tea</option>
+                            <option value=9>Almond Milk Tea</option>
+                            <option value=10>Coffee Milk Tea</option>
+                            <option value=11>Matcha Milk Tea</option>
+                            <option value=12>Taro Milk Tea</option>
+                        </select>
+    
+                        <br>
+    
+                        <label for="make">What size?</label>
+                        <select type="number" class="form-control" name="orderCupSize" id="orderCupSize" required>
+                            <option value="">Choose cup size</option>
+                            <option value=1>Small</option>
+                            <option value=2>Medium</option>
+                            <option value=3>Large</option>
+                        </select>
+    
+                        <br>
+    
+                        <label for="make">What topping?</label>
+                        <Select type="number" name="orderTopping" id="orderTopping" required>
+                            <option value="">Choose a topping</option>
+                            <option value=13>Tapioca Pearls</option>
+                            <option value=14>Passion Fruit Bubbles</option>
+                            <option value=15>Green Apple Bubbles</option>
+                            <option value=16>Strawberry Bubbles</option>
+                            <option value=17>Mango Bubbles</option>
+                            <option value=18>Lychee Bubbles</option>
+                            <option value=19>Grape Jelly</option>
+                            <option value=20>Lychee Jelly</option>
+                            <option value=21>Brown Sugar Bubbles</option>
+                            <option value=22>Crystal Bubbles</option>
+                            <option value=23>Strawberry Jelly</option>
+                        </Select>
+    
+                        <br>
+    
+                        <label for="make">How many of this order item would you like?</label>
+                        <input type="number" class="form-control" id="orderQuantity" name="orderQuantity" required>
+                        <br>
+    
+                        <input type="submit" value="Add Order Item" name="Add_Order_Item" class="btn btn-primary" style="margin:.5rem;">
+                        <button class="btn red modal-close">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <br><br>
+
+            <button class="btn teal modal-trigger" data-target="deleteOrderItem">Delete Order Item</button>
+            <div class="modal" id="deleteOrderItem">
+                <div class="modal-content">
+                    <h3>Delete Order Item</h3>
+                    <form id="deleteOrderItem" action="/Orders" method="post">
+                        <label for="make">Item ID</label>
+                        <input type="number" class="form-control" id="item_ID" name="item_ID" required>
+                        <br>
+                        <input type="submit" value="Delete Order Item" name="Delete_Order_Item" class="btn btn-primary" style="margin:.5rem;">
+                        <button class="btn red modal-close">Cancel</button>
+                    </form>
+                </div>
+            </div>  
+
+            <br>
+
+            <div class="center container"><h3>Order Items</h3></div>
+            <table border='1'>
+                <thead>
+                    <th> Item ID </th>
+                    <th> Order ID </th>
+                    <th> Tea Type </th>
+                    <th> Cup Size </th>
+                    <th> Topping </th>
+                    <th> Quantity </th>
+                    <th> Price </th>
+                </thead>
+                
+                <tbody>
+                    {% for item in item_rows %}
+                        <tr>
+                            <td> {{item['item_ID']}} </td>
+                            <td> {{item['order_ID']}} </td>
+                            <td> {{item['tea_type']}} </td>
+                            <td> {{item['cup_size']}} </td>
+                            <td> {{item['topping']}} </td>
+                            <td> {{item['quantity']}} </td>
+                            <td> {{item['price']}} </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function(){
+                const box = document.querySelectorAll(".modal");
+                M.Modal.init(box, {});
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const elems = document.querySelectorAll('select');
+                M.FormSelect.init(elems, {});
+            });
+        </script>
+    </body>
+</html>

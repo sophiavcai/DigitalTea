@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <!-- <link rel="stylesheet" href='../css/main.css'/> -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title> Digital Tea </title>
+        <style>
+            body{
+                background-color: rgb(164, 247, 247);
+            }
+            #boba-Icon {
+                height: 60px;
+                width: 60px;
+                margin-left: 180px;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        </style>
+    </head>
+
+<body>
+    <nav class="nav-wraper indigo">
+        <div class="container">
+            <img class="brand-logo" id="boba-Icon" src = "https://cdn-icons-png.flaticon.com/512/3081/3081162.png" alt = "Funky" /></Link>
+            <a href="/" class="brand-logo left">DigitalTea</a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="/">Home</a></li>
+                <li><a href="/Customers">Customers</a></li>
+                <li><a href="/Materials">Materials</a></li>
+                <li><a href="/Shops">Shops</a></li>
+                <li><a href="/Orders">Orders</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+
+        <h1>Customers</h1>
+
+        <button class="btn teal modal-trigger" data-target="newCustomer">Add New Customer</button>
+        <div class="modal" id="newCustomer">
+            <div class="modal-content">
+                <h3>Add Customer</h3>
+                <form id="insertCustomer" action="/Customers" method="post">
+                    <label for="make">First Name</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName" required>
+                    <br>
+                    <label for="make">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" required>
+                    <br>
+                    <label for="make">Email</label>
+                    <input type="text" class="form-control" id="email" name="email" required>
+                    <label for="make">Birthday</label>
+                    <input type="date" class="form-control" id="birthday" name="birthday" required>
+
+                    <input type="submit" value="Add Customer" name="Add_Customer" class="btn btn-primary" style="margin:.5rem;">
+                    <button class="btn red modal-close">Cancel</button>
+                </form>
+            </div>
+        </div>
+
+        <br><br>
+
+        <button class="btn teal modal-trigger" data-target="updateCust">Update Customer</button>
+        <div class="modal" id="updateCust">
+            <div class="modal-content">
+                <h3>Update Customer</h3>
+                <form id="updateCustomer" action="/Customers" method="post">
+                    <label for="make">Customer ID</label>
+                    <input type="number" class="form-control" id="customer_ID" name="customer_ID" required>
+                    <br>
+                    <label for="make">First Name</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName">
+                    <br>
+                    <label for="make">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName">
+                    <br>
+                    <label for="make">Email</label>
+                    <input type="text" class="form-control" id="email" name="email">
+                    <br>
+                    <label for="make">Birthday</label>
+                    <input type="date" class="form-control" id="birthday" name="birthday">
+
+                    <input type="submit" value="Update Customer" name="Update_Customer" class="btn btn-primary" style="margin:.5rem;">
+                    <button class="btn red modal-close">Cancel</button>
+                </form>
+            </div>
+        </div>
+
+    <br><br>
+    <div class="center container"><h3>Customer Contacts</h3></div>
+    <table border='1'>
+        <thead>
+            <th> Customer ID </th>
+            <th> First Name </th>
+            <th> Last Name </th>
+            <th> Email </th>
+            <th> Birthday </th>
+        </thead>
+        
+        <tbody>
+            {% for item in rows %}
+            <tr>
+                <td> {{item['customer_ID']}} </td>
+                <td> {{item['first_name']}} </td>
+                <td> {{item['last_name']}} </td>
+                <td> {{item['email']}} </td>
+                <td> {{item['birthday']}} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            const box = document.querySelectorAll(".modal");
+            M.Modal.init(box, {});
+        });
+    </script>
+    </body>
+
+</html>
