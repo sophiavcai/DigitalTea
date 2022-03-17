@@ -66,6 +66,23 @@ def customers():
 
             return redirect("/Customers")
 
+        if request.form.get("Search_Customer"):
+            customer_ID = request.form["customer_ID"]
+
+            query = "SELECT * FROM Customers WHERE customer_ID = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (customer_ID,))
+            mysql.connection.commit()
+
+            # redirect back to people page
+            query = "SELECT * FROM Customers WHERE customer_ID = %s"
+            cursor = mysql.connection.cursor()
+            cursor.execute(query, (customer_ID,))
+            results = cursor.fetchall()
+            # currently this would only populate the html table based on what is in the db
+            return render_template('customers.html', rows=results)
+
+
     #-------------------------#
     #  CUSTOMER GET REQUESTS  #
     #-------------------------#
@@ -193,16 +210,13 @@ def orders():
         ### DELETE AN EXISTING ORDER ###
         if request.form.get("Delete_Order"):
             order_ID = request.form["order_ID"]
-            # Add quantities back to the Materials table
-            addBackQuantityQuery = "UPDATE Materials \
-                                        SET quantity = quantity + (SELECT)"
             # First Delete the Order Items
             orderItemDeleteQuery = "DELETE FROM Order_Items WHERE order_ID = %s"
             cur = mysql.connection.cursor()
             cur.execute(orderItemDeleteQuery, (order_ID,))
             mysql.connection.commit()
             # Delete the order summary from the Order_Items table
-            orderDeleteQuery = "DELETE FROM Order WHERE order_ID = %s"
+            orderDeleteQuery = "DELETE FROM Orders WHERE order_ID = %s"
             cur = mysql.connection.cursor()
             cur.execute(orderDeleteQuery, (order_ID,))
             mysql.connection.commit()
@@ -311,29 +325,17 @@ def materials():
             material_ID = request.form["material_ID"]
             quantity = request.form["quantity"]
 
+            maxQuery = "SELECT last_insert_id()"
+            cur = mysql.connection.cursor()
+            cur.execute(maxQuery, ())
+            mysql.connection.commit()
+
             query = "UPDATE Materials SET quantity = (quantity + %s) WHERE material_ID = %s"
             cur = mysql.connection.cursor()
             cur.execute(query, (quantity, material_ID))
             mysql.connection.commit()
 
             return redirect("/Materials")
-
-        # if request.form.get("Filter_Model"):
-        #     # grab user form inputs
-        #     brand_id = request.form["brandID"]
-
-        #     query = "SELECT * FROM Model WHERE brand_id = %s"
-        #     cur = mysql.connection.cursor()
-        #     cur.execute(query, (brand_id,))
-        #     mysql.connection.commit()
-
-        #     # redirect back to people page
-        #     query = 'SELECT * FROM Model WHERE brand_id = %s'
-        #     cursor = mysql.connection.cursor()
-        #     cursor.execute(query, (brand_id,))
-        #     results = cursor.fetchall()
-        #     # currently this would only populate the html table based on what is in the db
-        #     return render_template('model.html', rows=results)
 
     #-------------------------#
     #  MATERIAL GET REQUESTS  #
@@ -344,9 +346,9 @@ def materials():
         cursor = mysql.connection.cursor()
         cursor.execute(query)
         results = cursor.fetchall()
-        return render_template('materials.html', rows=results)
+        return render_template('materials.html', rows=results)\
 
 # LISTENER SETUP
 if __name__ == "__main__":
 
-    app.run(port=3000, debug=True)
+    app.run(port=5000, debug=True)
