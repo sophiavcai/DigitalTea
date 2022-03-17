@@ -43,17 +43,19 @@ def customers():
             cur.execute(customerInsertQuery, (first_name, last_name, email, birthday))
             mysql.connection.commit()
 
-            # Refresh page
+            # Refresh the page
             return redirect("/Customers")
 
         ### UPDATE EXISTING CUSTOMER ###
         if request.form.get("Update_Customer"):
+            # collect customer update info
             customer_ID = request.form["customer_ID"]
             first_name = request.form["firstName"]
             last_name = request.form["lastName"]
             email = request.form["email"]
             birthday = request.form["birthday"]
 
+            # make update query to table
             updateCustomerQuery = "UPDATE Customers \
                     SET first_name = IF(%s != '',%s, first_name),\
                         last_name = IF(%s != '',%s, last_name),\
@@ -64,22 +66,20 @@ def customers():
             cur.execute(updateCustomerQuery, (first_name,first_name,last_name,last_name,email,email,birthday,birthday,customer_ID))
             mysql.connection.commit()
 
+            # Refresh the page
             return redirect("/Customers")
 
         if request.form.get("Search_Customer"):
+            # collect ID to search for
             customer_ID = request.form["customer_ID"]
 
+            # query to search for customer
             query = "SELECT * FROM Customers WHERE customer_ID = %s"
             cur = mysql.connection.cursor()
             cur.execute(query, (customer_ID,))
             mysql.connection.commit()
 
-            # redirect back to people page
-            query = "SELECT * FROM Customers WHERE customer_ID = %s"
-            cursor = mysql.connection.cursor()
-            cursor.execute(query, (customer_ID,))
-            results = cursor.fetchall()
-            # currently this would only populate the html table based on what is in the db
+            # Refresh the page
             return render_template('customers.html', rows=results)
 
 
@@ -228,13 +228,25 @@ def orders():
     #----------------------#
     if request.method == "GET":
         ### POPULATE ORDERS TABLE ###
-        getOrdersQuery = 'SELECT * FROM Orders'
+        getOrdersQuery = 'SELECT order_ID, drink_quantity, s.street_address, c.first_name, date, price FROM Orders \
+                          LEFT JOIN Shops s ON Orders.shop = s.shop_ID \
+                          LEFT JOIN Customers c ON Orders.customer = c.customer_ID'
         cursor = mysql.connection.cursor()
         cursor.execute(getOrdersQuery)
         results = cursor.fetchall()
 
         ### POPULATE ORDER_ITEMS TABLE ###
-        getOrderItemsQuery = 'SELECT * FROM Order_Items'
+        getOrderItemsQuery = 'SELECT o.item_ID, \
+                                     o.order_ID, \
+                                     tea.name AS tea_type, \
+                                     cup.name AS cup_size, \
+                                     t.name AS topping, \
+                                     o.quantity, \
+                                     o.price \
+                              FROM Order_Items o\
+                              LEFT JOIN Materials tea ON tea.material_ID = o.tea_type \
+                              LEFT JOIN Materials cup ON cup.material_ID = o.cup_size\
+                              LEFT JOIN Materials t ON t.material_ID = o.topping'
         cursor2 = mysql.connection.cursor()
         cursor2.execute(getOrderItemsQuery)
         results2 = cursor2.fetchall()
