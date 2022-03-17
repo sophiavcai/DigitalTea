@@ -337,6 +337,19 @@ def materials():
 
             return redirect("/Materials")
 
+        ### Add A MATERIAL ###
+        if request.form.get("Add_Material"):
+            name = request.form["materialName"]
+            cost = request.form["materialCost"]
+            price = request.form["materialPrice"]
+
+            query = "INSERT INTO Materials (name, quantity, cost, price) VALUES(%s, 0, %s, %s)"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (name, cost, price))
+            mysql.connection.commit()
+
+            return redirect("/Materials")
+
     #-------------------------#
     #  MATERIAL GET REQUESTS  #
     #-------------------------#
