@@ -95,6 +95,21 @@
         </div>
 
     <br><br>
+
+    <button class="btn teal modal-trigger" data-target="searchCustomer">Search Customer</button>
+    <div class="modal" id="searchCustomer">
+        <div class="modal-content">
+            <h3>Add Customer</h3>
+            <form id="searchCustomer" action="/Customers" method="post">
+                <label for="make">Customer ID</label>
+                <input type="number" class="form-control" id="customer_ID" name="customer_ID" required>
+
+                <input type="submit" value="Search Customer" name="Search_Customer" class="btn btn-primary" style="margin:.5rem;">
+                <button class="btn red modal-close">Cancel</button>
+            </form>
+        </div>
+    </div>
+
     <div class="center container"><h3>Customer Contacts</h3></div>
     <table border='1'>
         <thead>
@@ -117,6 +132,9 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <br><br>
+
     </div>
     <!-- Compiled and minified JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
