@@ -82,6 +82,27 @@
                 </div>
             </div>
 
+            <br><br>
+
+            <button class="btn teal modal-trigger" data-target="addMaterial">Add Material</button>
+            <div class="modal" id="addMaterial">
+                <div class="modal-content">
+                    <h3>Add Material</h3>
+                    <form id="addtMaterial" action="/Materials" method="post">
+                        <label for="make">Name</label>
+                        <input type="text" class="form-control" id="materialName" name="materialName" required>
+                        <label for="make">Cost per Unit</label>
+                        <input type="decimal" class="form-control" id="materialCost" name="materialCost">
+                        <br><br>
+                        <label for="make">Price per Unit</label>
+                        <input type="decimal" class="form-control" id="materialPrice" name="materialPrice">
+                        <br><br>
+                        <input type="submit" value="Add Material" name="Add_Material" class="btn btn-primary" style="margin:.5rem;">
+                        <button class="btn red modal-close">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
             <div class="center container"><h3>Material & Ingredient List</h3></div>
             <table border='1'>
                 <thead>
