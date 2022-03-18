@@ -174,14 +174,24 @@ def orders():
             mysql.connection.commit()
 
             # Update Order Item Price
-            query2 = "UPDATE Order_Items\
-                        SET price = price + ((SELECT price FROM Materials WHERE material_ID = %s) + \
-                                             (SELECT price FROM Materials WHERE material_ID = %s) + \
-                                             (SELECT price FROM Materials WHERE material_ID = %s)) * quantity \
-                        WHERE item_ID = (SELECT last_insert_id())"
-            cur = mysql.connection.cursor()
-            cur.execute(query2,(tea_type, cup_size, topping,))
-            mysql.connection.commit()
+            if topping != None:
+                query2 = "UPDATE Order_Items\
+                            SET price = price + ((SELECT price FROM Materials WHERE material_ID = %s) + \
+                                                (SELECT price FROM Materials WHERE material_ID = %s) + \
+                                                (SELECT price FROM Materials WHERE material_ID = %s)) * quantity \
+                            WHERE item_ID = (SELECT last_insert_id())"
+                cur = mysql.connection.cursor()
+                cur.execute(query2,(tea_type, cup_size, topping,))
+                mysql.connection.commit()
+            else:
+                print("we got a none")
+                query2 = "UPDATE Order_Items\
+                            SET price = price + ((SELECT price FROM Materials WHERE material_ID = %s) + \
+                                                (SELECT price FROM Materials WHERE material_ID = %s)) * quantity \
+                            WHERE item_ID = (SELECT last_insert_id())"
+                cur = mysql.connection.cursor()
+                cur.execute(query2,(tea_type, cup_size,))
+                mysql.connection.commit()
 
             # Update the quantity and price in the Order Summary
             query3 = "UPDATE Orders \
