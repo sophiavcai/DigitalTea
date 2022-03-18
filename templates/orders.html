@@ -22,6 +22,9 @@
                 left: 0;
                 top: 0;
             }
+            .modal {
+                overflow: visible;
+            }
         </style>
     </head>
 
@@ -128,6 +131,7 @@
             <div class="modal" id="addOrderItem">
                 <div class="modal-content">
                     <h3>Add Order Item</h3>
+                    <br>
                     <form id="insertOrderItem" action="/Orders" method="post">
                         <label for="make">What Order ID are you adding this drink to?</label>
                         <input type="number" class="form-control" id="orderID" name="orderID" required>
@@ -161,8 +165,8 @@
                         <br>
     
                         <label for="make">What topping?</label>
-                        <Select type="number" name="orderTopping" id="orderTopping" required>
-                            <option value="">Choose a topping</option>
+                        <Select type="number" class="form-control" name="orderTopping" id="orderTopping">
+                            <option value="none">Choose a topping</option>
                             <option value=13>Tapioca Pearls</option>
                             <option value=14>Passion Fruit Bubbles</option>
                             <option value=15>Green Apple Bubbles</option>
@@ -186,6 +190,7 @@
                         <button class="btn red modal-close">Cancel</button>
                     </form>
                 </div>
+                <br><br>
             </div>
 
             <br><br>

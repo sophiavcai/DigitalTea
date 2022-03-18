@@ -23,12 +23,12 @@ def home_page():
     totalRevenue = None
     totalOrders = None
 
-    query1 = 'SELECT tea_type, Count(tea_type) as TotalCount FROM Order_Items GROUP BY tea_type ORDER BY TotalCount DESC LIMIT 1'
+    query1 = 'SELECT m.name, Count(tea_type) as TotalCount FROM Order_Items JOIN Materials m ON Order_Items.tea_type=m.material_ID GROUP BY tea_type ORDER BY TotalCount DESC LIMIT 1'
     cursor1 = mysql.connection.cursor()
     cursor1.execute(query1)
     popularTea = cursor1.fetchall()
 
-    query2 = 'SELECT topping, Count(topping) as TotalCount FROM Order_Items GROUP BY topping ORDER BY TotalCount DESC LIMIT 1'
+    query2 = 'SELECT m.name, Count(topping) as TotalCount FROM Order_Items JOIN Materials m ON Order_Items.topping=m.material_ID GROUP BY topping ORDER BY TotalCount DESC LIMIT 1'
     cursor2 = mysql.connection.cursor()
     cursor2.execute(query2)
     popularTopping = cursor2.fetchall()
@@ -162,12 +162,15 @@ def orders():
             tea_type = request.form["orderTeaType"]
             cup_size = request.form["orderCupSize"]
             topping = request.form["orderTopping"]
+            if topping == "none":
+                topping = None
             quantity = request.form["orderQuantity"]
 
             # Insert the new Order Item
             query1 = "INSERT INTO Order_Items (order_ID, tea_type, cup_size, topping, quantity, price) VALUES(%s, %s, %s, %s, %s, 0)"
             cur = mysql.connection.cursor()
             cur.execute(query1, (order_ID, tea_type, cup_size, topping, quantity))
+        
             mysql.connection.commit()
 
             # Update Order Item Price
