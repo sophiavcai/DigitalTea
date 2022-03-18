@@ -16,9 +16,34 @@ mysql = MySQL(app)
 #********************#
 #  HOMEPAGE ENDPOINT #
 #********************#
-@app.route('/')
+@app.route('/', methods=["GET"])
 def home_page():
-    return render_template('homepage.html')
+    popularTea = None
+    popularTopping = None
+    totalRevenue = None
+    totalOrders = None
+
+    query1 = 'SELECT tea_type, Count(tea_type) as TotalCount FROM Order_Items GROUP BY tea_type ORDER BY TotalCount DESC LIMIT 1'
+    cursor1 = mysql.connection.cursor()
+    cursor1.execute(query1)
+    popularTea = cursor1.fetchall()
+
+    query2 = 'SELECT topping, Count(topping) as TotalCount FROM Order_Items GROUP BY topping ORDER BY TotalCount DESC LIMIT 1'
+    cursor2 = mysql.connection.cursor()
+    cursor2.execute(query2)
+    popularTopping = cursor2.fetchall()
+
+    query3 = 'SELECT SUM(price) as Total FROM Orders WHERE date=(SELECT CURDATE())'
+    cursor3 = mysql.connection.cursor()
+    cursor3.execute(query3)
+    totalRevenue = cursor3.fetchall()
+    
+    query4 = 'SELECT Count(date) as Total FROM Orders WHERE date=(SELECT CURDATE())'
+    cursor4 = mysql.connection.cursor()
+    cursor4.execute(query4)
+    totalOrders = cursor4.fetchall()
+    # print(totalOrders)
+    return render_template('homepage.html', popularTea=popularTea, popularTopping=popularTopping, totalRevenue=totalRevenue, totalOrders=totalOrders)
 
 #**********************#
 #  CUSTOMERS ENDPOINTS #

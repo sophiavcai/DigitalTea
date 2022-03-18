@@ -45,6 +45,64 @@
         <div class="center container">
             <h1>Welcome to the DigitalTea Database</h1>
             <h5>Let's look at some KPIs!</h5>
+            <div class="row">
+                <div class="col s12 m6">
+                    <div class="card blue-grey">
+                        <div class="card-content white-text">
+                            <span class="card-title">Most Popular Tea</span>
+                            <table>
+                                <thead>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{popularTea[0]['tea_type']}}</td>
+                                        <td>{{popularTea[0]['TotalCount']}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6">
+                    <div class="card blue-grey">
+                        <div class="card-content white-text">
+                            <span class="card-title">Most Popular Topping</span>
+                            <table>
+                                <thead>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{popularTopping[0]['topping']}}</td>
+                                        <td>{{popularTopping[0]['TotalCount']}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m6">
+                    <div class="card blue-grey">
+                        <div class="card-content white-text">
+                            <span class="card-title">Total Revenue Today</span>
+                            <p>${{totalRevenue[0]['Total']}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6">
+                    <div class="card blue-grey">
+                        <div class="card-content white-text">
+                            <span class="card-title">Total Orders Today</span>
+                            <p>{{totalOrders[0]['Total']}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <!-- Compiled and minified JavaScript -->
